@@ -2,7 +2,7 @@
 //and actualy starting up and listening on some ports we define
 require('dotenv').config();  //we are going to require dotenv
 console.log(process.env);
-
+const db = require('./db') //we dont need to use ./db/index.js  | so now we have access to the db objct
 
 const express = require("express"); //importing express app
 const morgan = require('morgan'); //importing morgan
@@ -11,9 +11,12 @@ const app = express();//creating an instance of our express app // so we created
 // app.use(morgan("dev"))
 app.use(express.json())  //this middleware is going to take whats in the body (retrive the date in the body of request) and we do it with middleware express.json() and it is going to attach it to "req"
 
+
 //now we need to start building our API plus routs
 //get all restaurants
-app.get("/api/v1/restaurants", (req, res) => {
+app.get("/api/v1/restaurants", async (req, res) => {
+    const results = await db.query("select * from restaurants") //this is going to return a promise becouse it takes certain amount of time so when we are dealing with promises i rec to use async await syntax
+    console.log(results)
     console.log("route handler run")
       res.status(200).json({      //we can use res.status(404).json to set our own status code and then see that in postman
         status: "succes",

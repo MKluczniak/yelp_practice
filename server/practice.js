@@ -13,3 +13,15 @@
 
 // app.use((req,res, next) => {});  //that way (coz we dont call next(), we can DROP the request) anything u can do in route u can do also in middleware
 // //usualu you dont need to create your middleware there is ton of them in the internet you can do it with third party middleware"morgan"
+
+
+
+// const pool = new Pool({     //we are going to create a new pool so this is actually what is going to conect to our postgres
+//     user: 'dbuser',
+//   host: 'database.server.com',
+//   database: 'mydb',
+//   password: 'secretpassword',
+//   port: 3211,
+// }) 
+
+// // we can hard code our postgres credantials passing it as an object but it is recommende to do it through env vars
