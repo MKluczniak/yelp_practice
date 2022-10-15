@@ -1,0 +1,17 @@
+npm init -y  (komenda na poczatku w server directory) // wpisales z bledem "npm -init -y" dodatkowy "-" przed init nie potrzebny!
+
+w package.json w dependencies mamy naszego zainstalowoanego expressa jej!
+
+in 'mode_modules' folder we have express and all the other express dependencies listed
+
+npmjs.com    Relied upon by more than 11 million developers worldwide, npm is committed to making JavaScript development elegant, productive, and safe. 
+
+Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env. Storing configuration in the environment separate from code is based on The Twelve-Factor App methodology.
+
+npm install nodeman  -- a package which can keep the server running without restating
+
+within the package.json we are going to create a script...
+ "scripts": {
+    "start": "nodeman server.js"
+  },   so this is basicly an equivalent of runing nodman server.js but insted of doing that with plane node we do it with the nodeman package which will automaticly restart our application when we save the file.
+  TO RUN IT WE DO "npm start"
