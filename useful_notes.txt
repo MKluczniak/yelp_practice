@@ -12,6 +12,34 @@ npm install nodeman  -- a package which can keep the server running without rest
 
 within the package.json we are going to create a script...
  "scripts": {
-    "start": "nodeman server.js"
+    "start": "nodeman server.js"    //we specify the command which will be run! how nice :P
   },   so this is basicly an equivalent of runing nodman server.js but insted of doing that with plane node we do it with the nodeman package which will automaticly restart our application when we save the file.
-  TO RUN IT WE DO "npm start"
+  TO RUN IT WE DO "npm start" 
+
+  Postman.com is a great tool to test out APIs and its great for dev puposes especialy when your front end hasnt been compleat or you plan to do front after back
+  and it basicly allow us to construct any http packet? we want, we hava access to various methods
+
+Middleware has a access to bothe the request and response so he can perform any action  tha our route handler cant, eg. send response, drop the packet and its actualy a core concept of node, using middleware will help reduce code
+good to keep in mind our route is also a middleware, the last one
+
+morgan will send you this nice little message "GET /api/v1/restaurants 200 64 - 7.124 ms" in the consol--- if we use "tiny" if we use "dev it will be more informative"
+
+when we use middleware "app.use(express.json()) then console.log(req.body) (in some route) we are going to recieve what is in the body of the request as a nice convinient js object! (bellow)
+{ name: 'taco bell', location: 'NEW York', price_range: 4 }  it takes a json which was send from the client and converts it js object so we can manipulate however we want
+
+when we use PUT method we need to specify all the fields in the body of request
+
+with the status code 204 (the delete method) the body is somehow deleted but (on postman)...
+
+Configuring the espress server to talk to postgress db https://node-postgres.com/
+npm install pg
+
+
+
+its good to remember that accessing eg. results (within the route) but not within the try catch block will obviously result in a referencer error "not defined"
+
+results = db.query("INSERT INTO restaurants (name, location, price_range) VALUES ($1,$2,$3) returning *"  so without the "returning *" in the printed results we wont have any rows because in fact when inserting sql doesnt return any rows, we need to tell him that explicitly
+and we may realy need it to send it back in the response as "results.rows[0]" so we can say WE CREATED OUR RESTAURANT THROUG AN API AND RETURNED THE DATA TO THE FRONTEND
+
+IMP lack of comas "UPDATE restaurants SET name=$1, location=$2, price_range=$3 where id=$4 returning *" between SET values lead to the server not finishing request, but without any error!
+wyglada na to ze brak await powoduje to samo
