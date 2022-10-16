@@ -43,3 +43,11 @@ and we may realy need it to send it back in the response as "results.rows[0]" so
 
 IMP lack of comas "UPDATE restaurants SET name=$1, location=$2, price_range=$3 where id=$4 returning *" between SET values lead to the server not finishing request, but without any error!
 wyglada na to ze brak await powoduje to samo
+
+REACT
+Our react app is going to be stored in our clien directory
+npm install create-react-app -g  (in termial in client directory) but globaly
+create-react-app .    creating react app within our client directory 
+//keep in mind routing on the frontend has nothing to do with the routing on the backend
+npm react install react-router-dom   (in client dir)
+In src folder we are going to create routes folder and within components of our page
