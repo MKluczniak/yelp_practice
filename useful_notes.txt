@@ -51,3 +51,22 @@ create-react-app .    creating react app within our client directory
 //keep in mind routing on the frontend has nothing to do with the routing on the backend
 npm react install react-router-dom   (in client dir)
 In src folder we are going to create routes folder and within components of our page
+
+<Route exact path="/restaurants/:id" element={<RestaurantDetailPage/>} />  //brakowalo Ci gupiego : i stron sie ladowala, ale nie wyswietlala zawartosci komponentu
+
+
+Before we actually start koding the restaurants list component and fatching data from our backend server what we wanna do we want to find a place to actually store the results and i want to store it in the "context api? "
+and the benefit of storing data in context api insted of a local state is that all our components in the application can automaticly retrive that data so we dont need to worry about passing that data as "props" or "lifiting state" or anything like that
+bc every compmopnet allready has a access ot the context api
+
+You can check in the devtools chrome (need a react dev tools extension) that the (in the components section) u can se that we wraping our entire app with the context provider and our current state is empty 3:14 to 3:20
+
+by default two different domains cant talk to each other thats why we use cors, running on (3001 i 3000 to juz sa rozne domeny)
+
+VSC tricks 
+
+typing ".form-row" will create for as... wait for it.. <div className="form-row"></div> !
+
+
+js syntax
+{{restaurants: restaurants}}  can be  {{restaurants}}   

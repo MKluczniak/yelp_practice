@@ -1,13 +1,16 @@
 // it is going to be our entry point for our backend application so its important file :p creatin and initialazing our express app
 //and actualy starting up and listening on some ports we define
 require('dotenv').config();  //we are going to require dotenv
-console.log(process.env);
+// console.log(process.env);
 const db = require('./db') //we dont need to use ./db/index.js  | so now we have access to the db objct
 
+const cors = require("cors")
 const express = require("express"); //importing express app
 const morgan = require('morgan'); //importing morgan
 const app = express();//creating an instance of our express app // so we created and instance of express an we stored it in a var app
 
+
+app.use(cors())
 // app.use(morgan("dev"))
 app.use(express.json())  //this middleware is going to take whats in the body (retrive the date in the body of request) and we do it with middleware express.json() and it is going to attach it to "req"
 
@@ -17,8 +20,6 @@ app.use(express.json())  //this middleware is going to take whats in the body (r
 app.get("/api/v1/restaurants", async (req, res) => {
     try{
         const results = await db.query("select * from restaurants") //this is going to return a promise becouse it takes certain amount of time so when we are dealing with promises i rec to use async await syntax
-        console.log(results)
-        console.log("route handler run")
         res.status(200).json({      //we can use res.status(404).json to set our own status code and then see that in postman
         status: "succes",
         results: results.rows.length, //for API if you return a list of sth it is always a good practice to add an extra property to our json response basicly listing how many results we are going to return
