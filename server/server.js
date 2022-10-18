@@ -36,14 +36,24 @@ app.get("/api/v1/restaurants", async (req, res) => {
 
 app.get("/api/v1/restaurants/:id", async (req, res) => {
     console.log(req.params.id) //console.log(req) i wanna consol log the request object, it will print a big json object in consol where we can find for example "parems: id" so exacly what is our param in our route or better we send   console.log(req.params) we got { id: '1234' } so the id we provided in the url, so now we know which restaurant our user want to retive
-    
+     
     try{
-        const results = await db.query("select * from restaurants where id=$1", [req.params.id]);
-        console.log(results)
-        res.status(200).json({
+        const restaurant = await db.query("select * from restaurants where id=$1", [
+            req.params.id,
+        ]);
+        // console.log(results)
+
+        const reviews = await db.query("select * from reviews where restaurant_id=$1", [
+            req.params.id, 
+        ]);
+
+        
+ 
+        res.status(200).json({ //sending data back to front end, when we changed to the restaurant and revies (from response) we need to make change in front end bc we are getting data in slightl different format
             status: "succes",
             data: {
-                restaurant: results.rows[0],  
+                restaurant: restaurant.rows[0],
+                reviews: reviews.rows  
             },
         })
     }
@@ -113,3 +123,9 @@ app.listen(port, () => {       //usualy 3000   // and the second thing is a call
 
 // i wanna actually use the env var in our app... its not neces. good to just hardcode port'3005' becouse in dev ok but maybe in prod its not going to be 3005
 // there is a package really helpful for managing env variables & its called "dotenv" you can find it on npmjs.com,
+
+// we could make another route eg. 
+// app.get("/api/v1/restaurants/:id/reviews", () => {} however this would means comunicating with db twice, we can do it within the "get restaurant api call" we gona retrive the data for the reviews within this route handler and the return it to our front end, so front has to make only one call to back
+
+
+// gdy w zapytaniu byl blad (logiczny) nie istnialo takie where=id , to strona jakby sie ladowala, ale komponenty sie nie ladowaly, consol.log tez jak to ugryzc??? 

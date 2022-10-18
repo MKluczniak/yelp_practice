@@ -63,6 +63,9 @@ You can check in the devtools chrome (need a react dev tools extension) that the
 
 by default two different domains cant talk to each other thats why we use cors, running on (3001 i 3000 to juz sa rozne domeny)
 
+using await is in fact returnig a promise thats why some fuction which dont wont you to return anything may give you a warning
+
+
 VSC tricks 
 
 typing ".form-row" will create for as... wait for it.. <div className="form-row"></div> !
@@ -70,3 +73,11 @@ typing ".form-row" will create for as... wait for it.. <div className="form-row"
 
 js syntax
 {{restaurants: restaurants}}  can be  {{restaurants}}   
+when you do the map function you have to return something
+
+react
+
+realoading page will lead to losing our state!!! so we do eg. e.preventDefault( )
+
+
+onClick={() => handleDelete(restaurant.id)} if you are going to pass an argument to the function you need to add "() =>" that way we pass a arrow f into the onclick event handler coz if we leave it without it what it thinks is happening is "you wanna run this code right away" but we wanna do it once the button is clicked
