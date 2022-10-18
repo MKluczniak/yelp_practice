@@ -9,7 +9,7 @@ const UpdateRestaurant = (props) => {     //o co chodzi z tym props ??
 
 //firts thing we need to thing about is what restaurant we are trying to update and we can easly grab the information from the url, react router has a hook for that.. useParams() hook (below)
     const {id} = useParams()           //"now we have access to our id"                             //const test = useParams() console.log(test)    //react router is goint to pass all the parameters we have in our url
-    let history = useNavigate()
+    let history = useNavigate()     //"here we are working with the history(previously useHistory()) api" but aint we working with useNavigate api ??? //useNavigate must import!
     const { restaurants } = useContext(RestaurantsContext)
     const[name, setName] = useState("")
     const[location, setLocation] = useState("")
@@ -35,7 +35,7 @@ const UpdateRestaurant = (props) => {     //o co chodzi z tym props ??
             location,
             price_range: priceRange
         }) 
-        history("/")
+        history("/")   //here with use we send us back to "/" (we use "let history = useNavigate())
         console.log(updatedRestaurant)
     }
     

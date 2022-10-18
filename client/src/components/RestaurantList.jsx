@@ -6,7 +6,7 @@ import { RestaurantsContext } from "../context/RestaurantsContext";
 const RestaurantList = (props) => {
     const { restaurants, setRestaurants } = useContext(RestaurantsContext)
     // so now we have our api defiend lets go back to our restaurant list and tell the component to fetch the date for us
-    let history = useNavigate();
+    let navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {      // way around useEffect throwing warrning "must not return anything"
             try {       //api call to our backend
@@ -18,7 +18,8 @@ const RestaurantList = (props) => {
         fetchData();           //with use of it the useEffect doesnt return anythin (only the fetchdata) niezrozumiale??    
     }, [])  //empty dependecier array  means the useEffect function/hook  will only when the component mounts it (???)
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (e,id) => {
+        e.stopPropagation()
         try {
             const response = await RestaurantFinder.delete(`/${id}`)  //here we deleta and it works but to update UI we need to do..
             setRestaurants(restaurants.filter(restaurant => {    //whate the filter method does? when we return sth and   if the restaurant.id does not mach the id we are trying to delete we gonna add that to the array , and when they do match we make sure to leave it out 
@@ -30,9 +31,16 @@ const RestaurantList = (props) => {
         }
     }
 
-    const handleUpdate = (id) => {
-        // const navigate = useNavigate();
-        history(`/restaurants/${id}/update`)  // so we ara adding the url into the history stack 
+    const handleUpdate = (e, id) => {
+        e.stopPropagation()
+        navigate(`/restaurants/${id}/update`)  // so we ara adding the url into the history stack 
+    }
+
+    const handleRestaurantSelect = (id) => {
+        //lets fetch the date for the restaut and load up the name  so the loging gonna be fairly simple what we did with the update restaurant (useeffect hook)
+
+
+        navigate(`/restaurants/${id}`)
     }
 
 
@@ -56,13 +64,13 @@ const RestaurantList = (props) => {
                         {/* restaurants is the array which stores all the restaruants  */ } {/*there is potenialy that we will not be able to retrive data fast enough so.. if restautants exist we run the code with use of "&&: --> restaurants && restaurants.map  */ } {/*if restaurants exist means "if we successfuly fetch out data and stored it in our context" (otherwise restaurants will be undifined*/ }
                         return (
                             //*we always have to pass the key otherwise worning*
-                            <tr key={restaurant.id}>
+                            <tr onClick={() => handleRestaurantSelect(restaurant.id)} key={restaurant.id}>
                                 <td>{restaurant.name}</td>
                                 <td>{restaurant.location}</td>
                                 <td>{"$".repeat(restaurant.price_range)}</td>
                                 <td>reviews</td>
-                                <td><button onClick={() => handleUpdate(restaurant.id)} className="btn btn-warning">Update</button></td>
-                                <td><button onClick={() => handleDelete(restaurant.id)} className="btn btn-danger">Delete</button></td>
+                                <td><button onClick={(e) => handleUpdate(e, restaurant.id)} className="btn btn-warning">Update</button></td>
+                                <td><button onClick={(e) => handleDelete(e, restaurant.id)} className="btn btn-danger">Delete</button></td>
                             </tr>
                         )
                     })}
@@ -114,3 +122,7 @@ const RestaurantList = (props) => {
 }
 
 export default RestaurantList
+
+//onClick={() => handleRestaurantSelect(restaurant.id)}   ???
+
+//so basicly adding onclick event to the <tr> brok our update and delete (clicking update does trigger the assigned f but its then get propegted to the <tr> onClick event and trigers THAT f), so what we have to do: pass "e" to the handleUpdate (1. where it is declared 2. where it is called. 3. in "(e)"" (also in the call) - this can be confusing) ??? and the we have to "e.stopPropagation" and that way when we click the update buttone we are not going to send that event up to the table row so it will never hit the navigate()
