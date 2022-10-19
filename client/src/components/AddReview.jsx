@@ -34,11 +34,11 @@ const AddReview = () => {
                 <div className="form-row">
                     <div className="form-group col-8">
                         <label htmlFor="name" > Name</label>
-                        <input value={name} onChange={e => setName(e.target.value) } id="name" type="text" className="form-control"/>
+                        <input value={name} onChange={(e) => setName(e.target.value)} id="name" type="text" className="form-control"/>
                     </div>
                     <div className="form-group col-4">
                         <label htmlFor="rating">Rating</label>
-                        <select value={rating} onChange={e => setRating(e.target.value) } id="rating" className="custom-select">
+                        <select value={rating} onChange={(e) => setRating(e.target.value)} id="rating" className="custom-select">
                             <option disabled>Rating</option>
                             <option value="1">1</option>
                             <option value="2">2</option>

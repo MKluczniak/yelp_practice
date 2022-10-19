@@ -19,12 +19,14 @@ app.use(express.json())  //this middleware is going to take whats in the body (r
 //get all restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
     try{
-        const results = await db.query("select * from restaurants") //this is going to return a promise becouse it takes certain amount of time so when we are dealing with promises i rec to use async await syntax
+        // const results = await db.query("select * from restaurants;") //this is going to return a promise becouse it takes certain amount of time so when we are dealing with promises i rec to use async await syntax
+        const restaurantRatingData = await db.query("select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews GROUP BY restaurant_id) reviews on restaurants.id = reviews.restaurant_id;")
+        console.log(restaurantRatingData)
         res.status(200).json({      //we can use res.status(404).json to set our own status code and then see that in postman
         status: "succes",
-        results: results.rows.length, //for API if you return a list of sth it is always a good practice to add an extra property to our json response basicly listing how many results we are going to return
+        results: restaurantRatingData.rows.length, //for API if you return a list of sth it is always a good practice to add an extra property to our json response basicly listing how many results we are going to return
         data: {
-            restaurants: results.rows, //we use rowes because that where the date is stored if you consol log results
+            restaurants: restaurantRatingData.rows, //we use rowes because that where the date is stored if you consol log results
         },
       }); //we can also send a json object res.json({}) the response will come as a json format and once we build our react the react cli will recieve a json format so he can easli parse the data  //res.send("these are the restaurants") this will send a "res"ponse and write it on the website   //consol log would print in our consol where the server is running
     } catch (err){
@@ -38,7 +40,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     console.log(req.params.id) //console.log(req) i wanna consol log the request object, it will print a big json object in consol where we can find for example "parems: id" so exacly what is our param in our route or better we send   console.log(req.params) we got { id: '1234' } so the id we provided in the url, so now we know which restaurant our user want to retive
      
     try{
-        const restaurant = await db.query("select * from restaurants where id=$1", [
+        const restaurant = await db.query("select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews GROUP BY restaurant_id) reviews on restaurants.id = reviews.restaurant_id where id=$1;", [
             req.params.id,
         ]);
         // console.log(results)
