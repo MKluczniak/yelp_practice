@@ -1,10 +1,32 @@
 import React from "react";
 import { useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import RestaurantFinder from "../apis/RestaurantFinder";
 
 const AddReview = () => {
+    const { id } = useParams()        //this is going ot give as access to the specific id we want (we need to distrucure out :P)
+    const location = useLocation()
+    let navigate = useNavigate()
+    
     const [name, setName] = useState("")
     const [rating, setRating]= useState("")
     const [reviewText, setReviewText ] = useState("Rating")
+
+    const handleSubmitReview = async (e) => {
+         e.preventDefault()
+         try{
+            const response = await RestaurantFinder.post(`/${id}/addReview`, 
+            {
+                name, 
+                review: reviewText,
+                rating,
+            })
+            navigate(`/`)
+            navigate(location.pathname)
+         }catch (err) {
+            console.log(err)
+         }
+    }
 
     return (
         <div className="mb-2">
@@ -29,7 +51,8 @@ const AddReview = () => {
                 <div className="form-group">
                     <textarea value={reviewText} onChange={e => setReviewText(e.target.value) } id="Review" className="form-control"></textarea>
                 </div>
-                <button className="btn btn-primary">
+                {/* //in here,  "in our API component" when the user clicks submint we need to add a review so "hit that API endpoint" so we set the onClick event handler */}
+                <button type="submit" onClick={handleSubmitReview} className="btn btn-primary">
                     Submit
                 </button>
             </form>
@@ -41,3 +64,4 @@ const AddReview = () => {
 
 export default AddReview
     
+//in here,  "in our API component" when the user clicks submint we need to add a review so "hit that API endpoint"

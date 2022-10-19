@@ -113,7 +113,22 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
 
 
 
+app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {   //we  gonna have access ot req,res
 
+    try{
+        const newReview = await db.query("INSERT INTO reviews (restaurant_id, name, review, rating) VALUES ($1, $2, $3, $4) returning *;", [req.params.id, req.body.name, req.body.review, req.body.rating])
+        console.log(newReview)
+        res.status(201).json({
+            status: "sucess",
+            data: {
+                review: newReview.rows[0]
+            }
+            //so now we can test it in postman :))))
+        })
+    } catch (err) {
+        console.log(err)
+    }
+})         
 
 const port = process.env.PORT || 3001;  //"so we are sorting a variable of port to the value of port in the .env file",   "||" means: however if its not defined we are listening on port 3001
 // and now we can tell our express app to listen on a specific port
