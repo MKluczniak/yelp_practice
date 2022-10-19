@@ -17,7 +17,7 @@ export const RestaurantContextProvider = (props) => {
  
     return(
 
-        <RestaurantsContext.Provider value={{restaurants: restaurants, setRestaurants, addRestaurants, selectedRestaurant, setSelectedRestaurant}}>      //we have to remeber to pass addrestaurants do our component so it can use the it and lets go to addrestaurant component
+        <RestaurantsContext.Provider value={{restaurants: restaurants, setRestaurants, addRestaurants, selectedRestaurant, setSelectedRestaurant}}>      {/*//we have to remeber to pass addrestaurants do our component so it can use the it and lets go to addrestaurant component*/}
             {props.children}
         </RestaurantsContext.Provider>
 
